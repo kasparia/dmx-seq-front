@@ -35,5 +35,9 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:3001"
+  "proxy": "http://localhost:3001",
+  "devDependencies": {
+    "socket.io": "^4.4.0",
+    "styled-components": "^5.3.3"
+  }
 }
