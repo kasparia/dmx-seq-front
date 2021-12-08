@@ -27,7 +27,7 @@ class DMXConnect {
   }
 
   setFlashRate (rate) {
-    this.flashRate = rate;
+    this.currentBPM = rate;
     this.sendRequest();
   }
 
