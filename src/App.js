@@ -26,6 +26,7 @@ function App() {
 
   const setStep = (event) => {
     const index = parseInt(event.target.id.slice(-1)) - 1;
+    console.log(index);
     const value = event.target.checked;
     connector.setStepSequencer(index, value);
     
@@ -36,6 +37,7 @@ function App() {
     <div className='App'>
       <header className='App-header'>
         <div>
+          <span>{ connector.getBPM() }</span>
           <input
             type='range'
             min='10'
@@ -46,12 +48,17 @@ function App() {
             onChange={ (event) => connector.setFlashRate(event.target.value) }  
           />
         </div>
+        <button onClick={ () => connector.sendPlayRequest() }>PLAY</button>
 
         <StepGrid>
           <input type='checkbox' id='step_1' name='step_1' onChange={ (event) => setStep(event) } />
           <input type='checkbox' id='step_2' name='step_2' onChange={ (event) => setStep(event) } />
           <input type='checkbox' id='step_3' name='step_3' onChange={ (event) => setStep(event) } />
           <input type='checkbox' id='step_4' name='step_4' onChange={ (event) => setStep(event) } />
+          <input type='checkbox' id='step_5' name='step_5' onChange={ (event) => setStep(event) } />
+          <input type='checkbox' id='step_6' name='step_6' onChange={ (event) => setStep(event) } />
+          <input type='checkbox' id='step_7' name='step_7' onChange={ (event) => setStep(event) } />
+          <input type='checkbox' id='step_8' name='step_8' onChange={ (event) => setStep(event) } />
         </StepGrid>
       </header>
     </div>

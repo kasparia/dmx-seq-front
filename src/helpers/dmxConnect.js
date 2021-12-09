@@ -3,7 +3,6 @@
 class DMXConnect {
   constructor () {
     this.baselURL = '/api';
-    this.flashRateURL = '?flashRate=';
 
     this.throttleTime = 500;
     this.requestTime = 0;
@@ -17,13 +16,12 @@ class DMXConnect {
 
     this.sender = null;
 
-    this.stepSequencer = [
-      false,
-      false,
-      false,
-      false
-    ];
+    this.stepSequencer = [ false, false, false, false, false, false, false, false ];
 
+  }
+
+  getBPM () {
+    return this.currentBPM;
   }
 
   setFlashRate (rate) {
@@ -33,6 +31,7 @@ class DMXConnect {
 
   setStepSequencer (stepIndex, stepValue) {
     this.stepSequencer[stepIndex] = stepValue;
+    console.log(this.stepSequencer);
     this.sendRequest();
   }
 
@@ -47,7 +46,7 @@ class DMXConnect {
       (async () => {
         this.requestTime = Date.now();
         console.log(this.requestTime);
-        const rawResponse = await fetch(this.baselURL + this.flashRateURL, {
+        const rawResponse = await fetch(this.baselURL, {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -62,6 +61,22 @@ class DMXConnect {
       
         console.log(content);
       })();
+  }
+
+  sendPlayRequest () {
+    (async () => {
+      const rawResponse = await fetch(this.baselURL + '/start', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          isRunning: true
+        })
+      });
+      const content = await rawResponse.json();
+    })();
   }
 }
 
