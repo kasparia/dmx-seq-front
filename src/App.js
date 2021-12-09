@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import DMXConnect from './helpers/dmxConnect';
 import styled from 'styled-components';
+
+import SequencerStep from './components/SequencerStep';
 
 const StepGrid = styled.div`
   & {
@@ -19,35 +22,49 @@ const StepGrid = styled.div`
   }
 `;
 
-function App() {
-
-  const connector = new DMXConnect();
-  //connector.setFlashRate(255);
-
-  const setStep = (event) => {
-    const index = parseInt(event.target.id.slice(-1)) - 1;
-    console.log(index);
-    const value = event.target.checked;
-    connector.setStepSequencer(index, value);
-    
-    // console.log(event.target.checked);
+const BpmWrapper = styled.div`
+  & {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    margin: 30px 0;
   }
+
+  input {
+    margin: 10px 0;
+  }
+`;
+
+const connector = new DMXConnect();
+
+const setStep = (event) => {
+  const index = parseInt(event.target.id.slice(-1)) - 1;
+  const value = event.target.checked;
+  connector.setStepSequencer(index, value);
+}
+
+function App() {
+  const [bpmState, setBPMState] = useState(60);
 
   return (
     <div className='App'>
       <header className='App-header'>
         <div>
-          <span>{ connector.getBPM() }</span>
-          <input
-            type='range'
-            min='10'
-            max='150'
-            defaultValue='60'
-            classNmae='slider'
-            id='rateSlider'
-            onChange={ (event) => connector.setFlashRate(event.target.value) }  
-          />
+            <div>{ bpmState } BPM</div>
+            <input
+              type='range'
+              min='10'
+              max='150'
+              defaultValue='60'
+              classNmae='slider'
+              id='rateSlider'
+              onChange={ (event) => {
+                connector.setFlashRate(parseInt(event.target.value));
+                setBPMState(parseInt(event.target.value));
+              }}  
+            />
         </div>
+
         <button onClick={ () => connector.sendPlayRequest() }>PLAY</button>
 
         <StepGrid>

@@ -31,7 +31,6 @@ class DMXConnect {
 
   setStepSequencer (stepIndex, stepValue) {
     this.stepSequencer[stepIndex] = stepValue;
-    console.log(this.stepSequencer);
     this.sendRequest();
   }
 
@@ -39,13 +38,15 @@ class DMXConnect {
     return this.stepSequencer;
   }
 
-  sendRequest (rate) {
-    const requestTimeNow = Date.now();
-    
+  sendRequest () {
+    // throttling...
+    //const requestTimeNow = Date.now();
     // if (this.requestTime === 0 || this.requestTime + this.throttleTime < requestTimeNow) {
+      console.log(this.getBPM());
+      console.log(this.getStepSequencer());
+
       (async () => {
-        this.requestTime = Date.now();
-        console.log(this.requestTime);
+        // this.requestTime = Date.now();
         const rawResponse = await fetch(this.baselURL, {
           method: 'POST',
           headers: {
@@ -53,13 +54,11 @@ class DMXConnect {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            currentBPM: this.currentBPM,
+            currentBPM: this.getBPM(),
             steps: this.getStepSequencer()
           })
         });
         const content = await rawResponse.json();
-      
-        console.log(content);
       })();
   }
 
