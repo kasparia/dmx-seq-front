@@ -2,6 +2,8 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Backend for this application can be found from [this repository](https://github.com/kasparia/dmx-step-seq).
+
 ## Available Scripts
 
 In the project directory, you can run:
